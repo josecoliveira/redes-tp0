@@ -16,36 +16,36 @@ void logexit(const char *str) {
 
 int main(void) {
 	int s;
-    // sockfd = socket(int socket_family, int socket_type, int protocol);
+	// sockfd = socket(int socket_family, int socket_type, int protocol);
 	s = socket(AF_INET, SOCK_STREAM, 0);
 	if (s == -1)
-        logexit("socket");
+		logexit("socket");
 
-    // internet address, used by sockaddr_in
+	// internet address, used by sockaddr_in
 	struct in_addr inaddr;
-    // convert IPv4 and IPv6 adsresses from text to binary form
+	// convert IPv4 and IPv6 adsresses from text to binary form
 	inet_pton(AF_INET, "127.0.0.1", &inaddr);
 
-    // IPv4 AF_INET6 sockets
+	// IPv4 AF_INET6 sockets
 	struct sockaddr_in addr;
-    // Interface for sockets. It's a parameter for connect function.
+	// Interface for sockets. It's a parameter for connect function.
 	struct sockaddr *addrptr = (struct sockaddr *)&addr;
 	addr.sin_family = AF_INET; // address family, AF_xxx. If it were IPv6, then it would be AF_INET6.
 	addr.sin_port = htons(5152); // converts the unsigned short integer hostshot for host byte order to network byte order.
 	addr.sin_addr = inaddr;
 
-    // Assign a local socket address to a socket identified by descriptor that
-    // has no local socket address assigned.
-    // int bind( int socket, const struct sockaddr *address, socklen_t
-    // address_len)
+	// Assign a local socket address to a socket identified by descriptor that
+	// has no local socket address assigned.
+	// int bind( int socket, const struct sockaddr *address, socklen_t
+	// address_len)
 	if (bind(s, addrptr, sizeof(struct sockaddr_in)))
 		logexit("bind");
 
-    // Listen for socket connections and limit the queue of incoming
-    // connections.
-    // int listen(int socket, int backlog)
+	// Listen for socket connections and limit the queue of incoming
+	// connections.
+	// int listen(int socket, int backlog)
 	if (listen(s, 10))
-        logexit("listen");
+		logexit("listen");
 	printf("esperando conexao\n");
 
 	while(1) {
@@ -55,7 +55,8 @@ int main(void) {
 		socklen_t rlen = sizeof(struct sockaddr_in);
 
 		int r = accept(s, raddrptr, &rlen);
-		if(r == -1) logexit("accept");
+		if(r == -1)
+			logexit("accept");
 
 		char buf[512];
 		char ipcliente[512];
